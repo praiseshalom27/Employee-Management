@@ -206,7 +206,41 @@ function csvfile()
 			
        
     }
+	
+	public function exportToCSV()
+    {
+        $filename = 'csv_file.csv';
+        // header("Content-Description: File Transfer");
+        header("Content-Disposition: attachment; filename=$filename");
+        header("Content-Type: application/csv; ");
+        // get data
+       
+        $file = fopen('php://output', 'w');
+        
+          $header = array("Sl.no","Employee Name","Department"," Age","Experience");
+          fputcsv($file, $header);
+       
+       
 
-
+        $sl_no=1;
+        foreach ($usersData as $key=>$line) {
+          array_unshift($line,$sl_no);
+            fputcsv($file, $line);
+            $sl_no++;
+        }
+        fclose($file);
+        exit;
+    }
 
 }
+//Csv preview
+  /*  function csvPreview()
+   {
+    $.ajax({
+     url:base_url+"excel_import/fetch",
+     method:"POST",
+     success:function(data){
+      $('#csv-preview').html(data);
+     }
+    })
+   } */
